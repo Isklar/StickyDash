@@ -114,6 +114,7 @@ SCHEDULER.every '30s' do
   player_counts['Skywars'] = { label: 'Skywars', value: uniqueSkywars.length}
 
   send_event('uniqueplayers', { items: player_counts.values })
+  send_event('uniqueplayers', { moreinfo: startTime })
 end
 
 SCHEDULER.every '24h' do
