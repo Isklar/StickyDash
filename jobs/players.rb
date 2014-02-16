@@ -44,10 +44,10 @@ total = 0
      urlResponse = open(url).read
    rescue Timeout::Error
      puts "The request for a page at #{url} timed out...skipping."
-     player_counts[serverNames[x]] = { label: 'Factions', value: "Restarting"}
+     player_counts[serverNames[x]] = { label: serverNames[x], value: "Restarting"}
    rescue OpenURI::HTTPError => e
      puts "The request for a page at #{url} returned an error. #{e.message}"
-     player_counts[serverNames[x]] = { label: 'Factions', value: "Restarting"}
+     player_counts[serverNames[x]] = { label: serverNames[x], value: "Restarting"}
    else
      urlJson = JSON.parse(urlResponse)[0]
      serverPlayers = urlJson.fetch("success")
