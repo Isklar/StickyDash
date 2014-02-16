@@ -3,7 +3,7 @@ StickyDash
 
 These are my configuration files for the Sticky Piston Network dashboard.
 
-You can check out the default sample dashboard [here](www.pistonmc.com:3030/sample) and the latest version of the SPN dashboard [here](http://i.imgur.com/d4IUhVT.png)
+You can check out the default sample dashboard [here](http://www.pistonmc.com:3030/sample) and the latest version of the SPN dashboard [here](http://i.imgur.com/d4IUhVT.png)
 
 [Disclaimer] - I have very limited knowledge of Ruby, Javascript and html. This is pretty much my first attempt at anything remotely complicated using them all, but its working so far which is nice.
 
