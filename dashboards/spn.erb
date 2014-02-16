@@ -1,0 +1,59 @@
+<script type='text/javascript'>
+$(function() {
+  // These settings override the defaults set in application.coffee. You can do this on a per dashboard basis.
+  // Creates square tiles
+  Dashing.widget_base_dimensions = [340, 340]
+  Dashing.numColumns = 4
+});
+</script>
+
+<% content_for :title do %>SPN Dashboard<% end %>
+<div class="gridster">
+  <ul>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="welcome" data-view="Text" data-title="Hello" data-text="Welcome to the Sticky Piston Network Dashboard." data-moreinfo="In-dev!"></div>
+    </li>
+<!-- The progress bar widget has been modified to show 20 tps as a full bar, atm the scaling is wrong and needs improvment -->    
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+       <div data-id="tpsbars" data-view="ProgressBars" data-title="Server TPS"></div>
+    </li>
+    
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="players" data-view="List" data-unordered="true" data-title="Players"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="uniqueplayers" data-view="List" data-unordered="true" data-title="Unique Visits Today"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="staff" data-view="List" data-unordered="true" data-title="Staff Online"></div>
+    </li>
+
+<!--    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="server_status" data-view="ServerStatus" data-title="External Ping Status"></div>
+    </li>
+-->
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="memory" data-view="Rickshawgraph" data-title="Memory Usage" data-min="0" data-max="264182492" data-default-alpha="0.5" data-stroke="false" data-moreinfo="1 min intervals"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="cpuload" data-view="Rickshawgraph" data-title="CPU Usage (%)" style="background-color:#3B8183" data-min="0" data-max="105" data-default-alpha="0.5" data-stroke="false" data-moreinfo="1 min intervals"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="loadavg" data-view="Rickshawgraph" data-title="CPU Load" style="background-color:#ff9618" data-min="0" data-max="16" data-default-alpha="0.5" data-stroke="false" data-moreinfo="1 min intervals"></div>
+    </li>
+<!--
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="debug" data-view="Text" data-title="JSON" data-text="Debug - Text widget"></div>
+    </li>
+
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-id="debug2" data-view="Text" data-title="JSON" data-text="Debug 2 - Text widget"></div>
+    </li>
+-->
+  </ul>
+</div>
+
