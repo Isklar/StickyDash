@@ -2,7 +2,10 @@ StickyDash
 ==========
 
 These are my configuration files for the Sticky Piston Network dashboard.
-[Disclaimer] - I have very limited knowledge of Ruby, Javascript and html. This is pretty much my first attempt at anything remotely complicated using them all but it worked so I've got that going for me which is nice.
+
+You can check out the default sample dashboard [here](pistonmc.com:3030/sample) and the latest version of the SPN dashboard [here](http://i.imgur.com/d4IUhVT.png)
+
+[Disclaimer] - I have very limited knowledge of Ruby, Javascript and html. This is pretty much my first attempt at anything remotely complicated using them all, but its working so far which is nice.
 
 
 About
@@ -43,5 +46,9 @@ JSONAPI works by sending a request payload to a specified server and receiving a
 always an array hence the '[0]' on the end of each read. If JSONAPI is successful in getting the data you asked for, the response payload will contain a "success" key-value pair which will contain the data you requested.
 Take note that if the request times out and you have no error checking in to catch it your dashboard will freeze until the request returns a success. As you can see I haven't implemented error checking into all my jobs yet.
 JSONAPI provides some useful error codes if it doesnt return a success [JSON Response Structure](https://github.com/alecgorge/jsonapi#json-response-structure).
+
+Now you've got the data from jsonapi you can send it to your desired widget / tile. Each widget has its own variables you can set that require various data types. Check the widget's .hmtl file for a list of bindings you can use.
+To send the data to the widget the `send_event` function is called, you need to include your widgets ID (defined in dashboards/dashboard.erb) and the correct data type. Any tile can use a certain type of widget, for example the `Staff.rb` and 
+`players.rb` both use the list widget.
 
 
