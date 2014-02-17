@@ -6,6 +6,10 @@ $value-color:       #fff;
 
 $title-color:       rgba(255, 255, 255, 0.7);
 $label-color:       rgba(255, 255, 255, 0.7);
+$red-color:       #FF8585;
+$yellow-color:    #F0C543;
+$green-color:     #98E327;
+
 $moreinfo-color:    rgba(255, 255, 255, 0.7);
 
 // ----------------------------------------------------------------------------
@@ -58,10 +62,14 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
   }
 
   .red {
-    color: rgba(0,0,0,0.8);
+    color: $red-color
+  }
+
+  .yellow {
+    color: $yellow-color;
   }
 
   .green {
-    color: $label-color;
+    color: $green-color;
   }
 }

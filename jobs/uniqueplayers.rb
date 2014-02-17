@@ -31,7 +31,6 @@ uniqueSkywars = Array.new
 startTime = "Started at " + Time.now.gmtime.strftime("%H:%M on %d/%m/%Y")
 send_event('uniqueplayers', { moreinfo: startTime })
 
-# TODO - Improve if,else statements to remove # do nothing?
 SCHEDULER.every '5s' do
   hubResponse = JSON.parse(open(hubUrl).read)[0]
   hubPlayers = hubResponse.fetch("success")
