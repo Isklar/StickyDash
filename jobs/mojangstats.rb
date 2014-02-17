@@ -5,6 +5,7 @@ url = "http://status.mojang.com/check"
 statuses = Array.new
 
 SCHEDULER.every '15s' do
+ statuses.clear
   begin
      urlResponse = open(url).read
    rescue Timeout::Error
