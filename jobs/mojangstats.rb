@@ -1,4 +1,4 @@
-﻿require 'open-uri'
+require 'open-uri'
 require 'json'
 
 url = "http://status.mojang.com/check"
@@ -15,7 +15,7 @@ SCHEDULER.every '15s' do
    else
      result = 1
      website = JSON.parse(urlResponse)[0]["minecraft.net"]
-     statuses.push({label: "Website", value: result, arrow: getArrow(website), color: website})
+     statuses.push({label: "Website", value: result, arrow: getArrow(website), color: website})     
 
      login = JSON.parse(urlResponse)[1]["login.minecraft.net"]
      statuses.push({label: "Logins", value: result, arrow: getArrow(login), color: login})
@@ -36,12 +36,13 @@ SCHEDULER.every '15s' do
 send_event('mojangstatus', {items: statuses})
 end
 
+# Determines status icon shown
 def getArrow(status)
    if status == "green"
      return "icon-ok-sign"
    elsif status == "yellow"
      return "icon-warning-sign"
    else
-     return "icon-times"
+     return "icon-thumbs-down" 
    end
 end
