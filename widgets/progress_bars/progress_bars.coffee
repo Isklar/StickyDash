@@ -147,12 +147,12 @@ class Dashing.ProgressBars extends Dashing.Widget
   # @value - the numeric value to set the element to. This can be a float.
   # /
   setProgressBarValue = (element, value) ->
-    if (value > 20) 
-      value = 20
+    if (value > 100) 
+      value = 100
     else if (value < 0) 
       value = 0
-    element.textContent = Math.floor(value) + ""
-    element.style.width = value + 80 + "%"
+    element.textContent = Math.floor((value/100) * 20)
+    element.style.width = value + "%"
 
   #***/
   # Applies a percentage-based row height to the list of rows passed in.

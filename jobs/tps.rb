@@ -53,7 +53,8 @@ x = 0
    else
      urlJson = JSON.parse(urlResponse)[0]
      serverTicks = urlJson.fetch("success").fetch("clockRate").round
-     serverTps[x] = {name: serverNames[x], progress: serverTicks}
+     ticksPercent = (serverTicks/20.00) * 100.00
+     serverTps[x] = {name: serverNames[x], progress: ticksPercent}
    ensure
      x += 1
   end
