@@ -20,4 +20,5 @@ cpuInt = Float(cpuLoad.delete!("\n"))
   points << { x: last_x, y: Integer(cpuInt) }
 
   send_event('cpuload', points: points)
+  send_event('cpuload', moreinfo: "1 min intervals")
 end

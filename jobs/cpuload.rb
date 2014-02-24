@@ -16,4 +16,5 @@ SCHEDULER.every '1m' do
   points << { x: last_x, y: loadavg[0].to_f }
  
   send_event('loadavg', points: points)
+  send_event('loadavg', moreinfo: "1 min intervals")
 end
