@@ -18,7 +18,13 @@ prisonUrl = "http://localhost:20071/api/2/call?json=%5B%7B%22name%22%3A%22" + ap
 skyblockUrl = "http://localhost:20074/api/2/call?json=%5B%7B%22name%22%3A%22" + apimethod + "%22%2C%22key%22%3A%22" + sha256.to_s + "%22%2C%22username%22%3A%22" + username + "%22%2C%22arguments%22%3A%5B%5D%2C%22tag%22%3A%22Skyblockplayers%22%7D%5D"
 skywarsUrl = "http://localhost:20077/api/2/call?json=%5B%7B%22name%22%3A%22" + apimethod + "%22%2C%22key%22%3A%22" + sha256.to_s + "%22%2C%22username%22%3A%22" + username + "%22%2C%22arguments%22%3A%5B%5D%2C%22tag%22%3A%22Skywarsplayers%22%7D%5D"
 
-player_counts = Hash.new({ value: 0 })
+urls = Array.new
+urls.push factionsUrl
+urls.push freebuildUrl
+urls.push kitUrl
+urls.push prisonUrl
+urls.push skyblockUrl
+urls.push skywarsUrl
 
 uniqueFactions = Array.new
 uniqueFreebuild = Array.new
@@ -31,9 +37,22 @@ uniqueSkywars = Array.new
 startTime = "Started at " + Time.now.gmtime.strftime("%H:%M on %d/%m/%Y")
 send_event('uniqueplayers', { moreinfo: startTime })
 
+serverPlayers = Array.new
+player_counts = Hash.new({ value: 0 })
+
 SCHEDULER.every '5s' do
-  hubResponse = JSON.parse(open(hubUrl).read)[0]
-  hubPlayers = hubResponse.fetch("success")
+ begin
+      hubResponse = open(hubUrl).read
+    rescue Timeout::Error
+      puts "The request for a page at #{hubUrl} timed out...skipping."
+    rescue OpenURI::HTTPError => e
+      puts "The request for a page at #{hubUrl} returned an error. #{e.message}"
+    rescue Errno::ECONNREFUSED
+      puts "The request for a page at #{hubUrl} refused the connection...skipping."
+    else
+     hubJson = JSON.parse(hubResponse)[0]
+     hubPlayers = hubJson.fetch("success")
+ end
 
   hubPlayers.each { |name|
     if !uniqueHub.include?(name)
@@ -42,50 +61,50 @@ SCHEDULER.every '5s' do
 end
 
 SCHEDULER.every '30s' do
-  factionsResponse = JSON.parse(open(factionsUrl).read)[0]
-  factionsPlayers = factionsResponse.fetch("success")
+  x = 0
+  urls.each do |url|
+   begin
+      urlResponse = open(url).read
+    rescue Timeout::Error
+      puts "The request for a page at #{url} timed out...skipping."
+    rescue OpenURI::HTTPError => e
+      puts "The request for a page at #{url} returned an error. #{e.message}"
+    rescue Errno::ECONNREFUSED
+      puts "The request for a page at #{url} refused the connection...skipping."
+    else
+      urlJson = JSON.parse(urlResponse)[0]
+      serverPlayers[x] = urlJson.fetch("success")
+    ensure
+      x += 1
+   end
+  end
 
-  freebuildResponse = JSON.parse(open(freebuildUrl).read)[0]
-  freebuildPlayers = freebuildResponse.fetch("success")
-
-  kitResponse = JSON.parse(open(kitUrl).read)[0]
-  kitPlayers = kitResponse.fetch("success")
-
-  prisonResponse = JSON.parse(open(prisonUrl).read)[0]
-  prisonPlayers = prisonResponse.fetch("success")
-
-  skyblockResponse = JSON.parse(open(skyblockUrl).read)[0]
-  skyblockPlayers = skyblockResponse.fetch("success")
-
-  skywarsResponse = JSON.parse(open(skywarsUrl).read)[0]
-  skywarsPlayers = skywarsResponse.fetch("success")
-
-  factionsPlayers.each { |name|
+  serverPlayers[0].each { |name|
     if !uniqueFactions.include?(name)
       uniqueFactions.push(name)
     end }
 
-  freebuildPlayers.each { |name|
+  serverPlayers[1].each { |name|
     if !uniqueFreebuild.include?(name)
       uniqueFreebuild.push(name)
     end}
 
-  kitPlayers.each { |name|
+  serverPlayers[2].each { |name|
     if !uniqueKit.include?(name)
       uniqueKit.push(name)
     end }
 
-  prisonPlayers.each { |name|
+  serverPlayers[3].each { |name|
     if !uniquePrison.include?(name)
       uniquePrison.push(name)
     end }
 
-  skyblockPlayers.each { |name|
+  serverPlayers[4].each { |name|
     if !uniqueSkyblock.include?(name)
       uniqueSkyblock.push(name)
     end }
 
-  skywarsPlayers.each { |name|
+  serverPlayers[5].each { |name|
     if !uniqueSkywars.include?(name)
       uniqueSkywars.push(name)
     end }
@@ -105,13 +124,8 @@ end
 SCHEDULER.every '24h' do
 
 # clear unique players for all servers
-uniqueFactions.clear
-uniqueFreebuild.clear
-uniqueHub.clear
-uniqueKit.clear
-uniquePrison.clear
-uniqueSkyblock.clear
-uniqueSkywars.clear
+  serverPlayers.clear
+  uniqueHub.clear
 
   player_counts['Factions'] = { label: 'Factions', value: 0}
   player_counts['Freebuild'] = { label: 'Freebuild', value: 0}
