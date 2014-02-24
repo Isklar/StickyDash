@@ -38,16 +38,18 @@ SCHEDULER.every '15s' do
 x = 0
 total = 0
 
-# Loops through each url and catches timeout and 404 errors, setting the value to NaN for the Tps
  urls.each do |url|
   begin
      urlResponse = open(url).read
    rescue Timeout::Error
      puts "The request for a page at #{url} timed out...skipping."
-     player_counts[serverNames[x]] = { label: serverNames[x], value: "Restarting"}
+     player_counts[serverNames[x]] = { label: serverNames[x], value: "Error(Timeout)"}
    rescue OpenURI::HTTPError => e
      puts "The request for a page at #{url} returned an error. #{e.message}"
-     player_counts[serverNames[x]] = { label: serverNames[x], value: "Restarting"}
+     player_counts[serverNames[x]] = { label: serverNames[x], value: "Error(HTTP Error)"}
+   rescue Errno::ECONNREFUSED
+     puts "The request for a page at #{url} refused the connection...skipping."
+     player_counts[serverNames[x]] = { label: serverNames[x], value: "Error(No Connection)"}
    else
      urlJson = JSON.parse(urlResponse)[0]
      serverPlayers = urlJson.fetch("success")

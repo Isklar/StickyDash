@@ -50,6 +50,8 @@ x = 0
    rescue OpenURI::HTTPError => e
      puts "The request for a page at #{url} returned an error. #{e.message}"
      serverTps[x] = {name: serverNames[x], progress: "Restart"}
+   rescue Errno::ECONNREFUSED
+     puts "The request for a page at #{url} refused the connection...skipping."
    else
      urlJson = JSON.parse(urlResponse)[0]
      serverTicks = urlJson.fetch("success").fetch("clockRate").round

@@ -12,6 +12,8 @@ SCHEDULER.every '15s' do
      puts "The request for a page at #{url} timed out...skipping."
    rescue OpenURI::HTTPError => e
      puts "The request for a page at #{url} returned an error. #{e.message}"
+   rescue Errno::ECONNREFUSED
+     puts "The request for a page at #{url} refused the connection...skipping."
    else
      result = 1
      website = JSON.parse(urlResponse)[0]["minecraft.net"]
