@@ -36,9 +36,7 @@ SCHEDULER.every '5s' do
   hubPlayers = hubResponse.fetch("success")
 
   hubPlayers.each { |name|
-    if uniqueHub.include?(name)
-      # do nothing?
-    else
+    if !uniqueHub.include?(name)
       uniqueHub.push(name)
     end }
 end
@@ -63,44 +61,32 @@ SCHEDULER.every '30s' do
   skywarsPlayers = skywarsResponse.fetch("success")
 
   factionsPlayers.each { |name|
-    if uniqueFactions.include?(name)
-      # do nothing?
-    else
+    if !uniqueFactions.include?(name)
       uniqueFactions.push(name)
     end }
 
   freebuildPlayers.each { |name|
-    if uniqueFreebuild.include?(name)
-      # do nothing?
-    else
+    if !uniqueFreebuild.include?(name)
       uniqueFreebuild.push(name)
     end}
 
   kitPlayers.each { |name|
-    if uniqueKit.include?(name)
-      # do nothing?
-    else
+    if !uniqueKit.include?(name)
       uniqueKit.push(name)
     end }
 
   prisonPlayers.each { |name|
-    if uniquePrison.include?(name)
-      # do nothing?
-    else
+    if !uniquePrison.include?(name)
       uniquePrison.push(name)
     end }
 
   skyblockPlayers.each { |name|
-    if uniqueSkyblock.include?(name)
-      # do nothing?
-    else
+    if !uniqueSkyblock.include?(name)
       uniqueSkyblock.push(name)
     end }
 
   skywarsPlayers.each { |name|
-    if uniqueSkywars.include?(name)
-      # do nothing?
-    else
+    if !uniqueSkywars.include?(name)
       uniqueSkywars.push(name)
     end }
 
