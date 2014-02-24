@@ -2,16 +2,14 @@ require 'open-uri'
 require 'json'
 
 apimethod = "players.online.count"
-username = "<Insert your JSONAPI username here>"
-password = "<Insert your JSONAPI password here>"
+username = (File.open('/root/spn_dashboard/jobs/JSONInfo.txt', &:readline)).split[0]
+password = (File.open('/root/spn_dashboard/jobs/JSONInfo.txt', &:readline)).split[1]
 
-# Generates hash required for JSONAPI
 sha256 = Digest::SHA256.new
 sha256.update username
 sha256.update apimethod
 sha256.update password
 
-# URL Builders
 factionsUrl = "http://localhost:20065/api/2/call?json=%5B%7B%22name%22%3A%22" + apimethod + "%22%2C%22key%22%3A%22" + sha256.to_s + "%22%2C%22username%22%3A%22" + username + "%22%2C%22arguments%22%3A%5B%5D%2C%22tag%22%3A%22Factionscount%22%7D%5D"
 freebuildUrl = "http://localhost:20059/api/2/call?json=%5B%7B%22name%22%3A%22" + apimethod + "%22%2C%22key%22%3A%22" + sha256.to_s + "%22%2C%22username%22%3A%22" + username + "%22%2C%22arguments%22%3A%5B%5D%2C%22tag%22%3A%22Freecount%22%7D%5D"
 hubUrl = "http://localhost:20062/api/2/call?json=%5B%7B%22name%22%3A%22" + apimethod + "%22%2C%22key%22%3A%22" + sha256.to_s + "%22%2C%22username%22%3A%22" + username + "%22%2C%22arguments%22%3A%5B%5D%2C%22tag%22%3A%22Hubcount%22%7D%5D"
@@ -20,7 +18,6 @@ prisonUrl = "http://localhost:20071/api/2/call?json=%5B%7B%22name%22%3A%22" + ap
 skyblockUrl = "http://localhost:20074/api/2/call?json=%5B%7B%22name%22%3A%22" + apimethod + "%22%2C%22key%22%3A%22" + sha256.to_s + "%22%2C%22username%22%3A%22" + username + "%22%2C%22arguments%22%3A%5B%5D%2C%22tag%22%3A%22Skyblockcount%22%7D%5D"
 skywarsUrl = "http://localhost:20077/api/2/call?json=%5B%7B%22name%22%3A%22" + apimethod + "%22%2C%22key%22%3A%22" + sha256.to_s + "%22%2C%22username%22%3A%22" + username + "%22%2C%22arguments%22%3A%5B%5D%2C%22tag%22%3A%22Skywarscount%22%7D%5D"
 
-# URL Array Builder
 urls = Array.new
 urls.push factionsUrl
 urls.push freebuildUrl
@@ -59,11 +56,10 @@ total = 0
      x += 1
   end
  end
- # Adds total count to player counts list
+ 
   totalString = total.to_s + "/1000"
   player_counts['Total'] = { label: 'Total', value: totalString}
-  
-# Final send event to update widget
+
   send_event('players', { items: player_counts.values })
 end
 

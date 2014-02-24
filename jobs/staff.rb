@@ -2,16 +2,14 @@ require 'open-uri'
 require 'json'
 
 apimethod = "players.online.names"
-username = "<Insert your JSONAPI username here>"
-password = "<Insert your JSONAPI password here>"
+username = (File.open('/root/spn_dashboard/jobs/JSONInfo.txt', &:readline)).split[0]
+password = (File.open('/root/spn_dashboard/jobs/JSONInfo.txt', &:readline)).split[1]
 
-# Generates hash for JSONAPI
 sha256 = Digest::SHA256.new
 sha256.update username
 sha256.update apimethod
 sha256.update password
 
-# URL Builders
 factionsUrl = "http://localhost:20065/api/2/call?json=%5B%7B%22name%22%3A%22" + apimethod + "%22%2C%22key%22%3A%22" + sha256.to_s + "%22%2C%22username%22%3A%22" + username + "%22%2C%22arguments%22%3A%5B%5D%2C%22tag%22%3A%22Factionsstaff%22%7D%5D"
 freebuildUrl = "http://localhost:20059/api/2/call?json=%5B%7B%22name%22%3A%22" + apimethod + "%22%2C%22key%22%3A%22" + sha256.to_s + "%22%2C%22username%22%3A%22" + username + "%22%2C%22arguments%22%3A%5B%5D%2C%22tag%22%3A%22Freestaff%22%7D%5D"
 hubUrl = "http://localhost:20062/api/2/call?json=%5B%7B%22name%22%3A%22" + apimethod + "%22%2C%22key%22%3A%22" + sha256.to_s + "%22%2C%22username%22%3A%22" + username + "%22%2C%22arguments%22%3A%5B%5D%2C%22tag%22%3A%22Hubstaff%22%7D%5D"
@@ -27,7 +25,6 @@ staff_list = ["bsquidwrd","BigRichieRich","EthanGrievous","Grimdeathkin","Isklar
 
 SCHEDULER.every '15s' do
 
-# This is out of date and does not include error handling for openUri errors
   factionsResponse = JSON.parse(open(factionsUrl).read)[0]
   factionsList = factionsResponse.fetch("success")
 

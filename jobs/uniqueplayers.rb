@@ -2,8 +2,8 @@ require 'open-uri'
 require 'json'
 
 apimethod = "players.online.names"
-username = "<Insert your JSONAPI username here>"
-password = "<Insert your JSONAPI password here>"
+username = (File.open('/root/spn_dashboard/jobs/JSONInfo.txt', &:readline)).split[0]
+password = (File.open('/root/spn_dashboard/jobs/JSONInfo.txt', &:readline)).split[1]
 
 sha256 = Digest::SHA256.new
 sha256.update username
